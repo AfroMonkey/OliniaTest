@@ -1,62 +1,67 @@
 package com.olinia.oliniatest;
 
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class ChatActivity extends AppCompatActivity {
 
-    private Button send;
-    private ListView list;
-    private EditText txt;
-    private boolean sw = true;
+    // Firebase instance variables
+    private DatabaseReference mFirebaseDatabaseReference;
+    private FirebaseListAdapter<Message> mFirebaseAdapter;
+
+    public static class MessageViewHolder extends RecyclerView.ViewHolder {
+        public TextView messageTextView;
+        public TextView messengerTextView;
+
+        public MessageViewHolder(View v) {
+            super(v);
+            messageTextView = (TextView) itemView.findViewById(R.id.messageTextView);
+            messengerTextView = (TextView) itemView.findViewById(R.id.messengerTextView);
+        }
+    }
+
+    public static final String MESSAGES_CHILD = "messages";
+
+    private ListView mMessageRecyclerView;
+    private LinearLayoutManager mLinearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        send = (Button) findViewById(R.id.send);
-        list = (ListView) findViewById(R.id.list);
-        txt = (EditText) findViewById(R.id.txt);
+        // Set default username is anonymous.
 
-        final MessageAdapter adapter = (new MessageAdapter(this, R.layout.message, R.id.msg));
+        // Initialize ProgressBar and RecyclerView.
+        mMessageRecyclerView = (ListView) findViewById(R.id.list);
+        mLinearLayoutManager = new LinearLayoutManager(this);
+        mLinearLayoutManager.setStackFromEnd(true);
 
-
-        list.setAdapter(adapter);
-
-        send.setOnClickListener(new View.OnClickListener() {
+        // New child entries
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        mFirebaseAdapter = new FirebaseListAdapter<Message>(this, Message.class, R.layout.message, mFirebaseDatabaseReference.child(MESSAGES_CHILD)) {
             @Override
-            public void onClick(View view) {
-                adapter.add(txt.getText().toString().trim());
-                txt.setText("");
-            }
-        });
-
-        txt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.toString().trim().length() > 0){
-                    send.setEnabled(true);
-                }
-                else{
-                    send.setEnabled(false);
+            protected void populateView(View v, Message message, int position) {
+                ((TextView) v.findViewById(R.id.msg)).setText(message.getBody());
+                if (message.getSender().equals("Moises")) {
+                    v.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+                    v.findViewById(R.id.msg).setBackgroundResource(R.drawable.message_received_style);
+                } else {
+                    v.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+                    v.findViewById(R.id.msg).setBackgroundResource(R.drawable.message_sent_style);
                 }
             }
+        };
 
-            @Override
-            public void afterTextChanged(Editable editable) {}
-        });
+        mMessageRecyclerView.setAdapter(mFirebaseAdapter);
     }
-
 }

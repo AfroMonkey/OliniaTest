@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "577190286835",
+    "firebase_url": "https://friendlychat-c2f13.firebaseio.com",
+    "project_id": "friendlychat-c2f13",
+    "storage_bucket": "friendlychat-c2f13.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577190286835:android:9ca86454c0ead3d6",
+        "android_client_info": {
+          "package_name": "com.olinia.oliniatest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "577190286835-ab1q2d5kl34u0o6kfhitb6mrucgfe9dh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCx-loZhHxJeEGdurxEV-zFrW9EyHK_4fw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
