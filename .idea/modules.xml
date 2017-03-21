@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file:///afrofiles/git/OliniaTest/OliniaTest.iml" filepath="/afrofiles/git/OliniaTest/OliniaTest.iml" />
+      <module fileurl="file:///afrofiles/git/OliniaTest/app/app.iml" filepath="/afrofiles/git/OliniaTest/app/app.iml" />
+    </modules>
+  </component>
+</project>
